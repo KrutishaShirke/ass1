@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dice Game</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f0f0f0; 
+    color: #333; 
+  }
+  
+  h1 {
+    margin-bottom: 20px;
+  }
+  
+  .players {
+    display: flex;
+    justify-content: space-between;
+    width: 300px;
+    margin-bottom: 20px;
+  }
+  
+  .player {
+    text-align: center;
+  }
+  
+  .dice {
+    width: 80px;
+    height: 80px;
+    border: 2px solid #333;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    margin-bottom: 10px;
+    background-color: #fff; 
+    position: relative;
+  }
+  
+  .dice:hover {
+    transform: scale(1.1);
+  }
+
+  .scorecard {
+    width: 100px;
+    border: 2px solid #333;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #fff; 
+  }
+
+  .winner {
+    font-weight: bold;
+    color: green;
+  }
+</style>
+</head>
+<body>
+
+<h1>Dice Game</h1>
+
+<div class="players">
+  <div class="player">
+    <div class="dice" id="player1Dice" onclick="rollDice('player1', 'player1Score')">⚀</div>
+    <div class="scorecard">Player 1<br>Score: <span id="player1Score">0</span></div>
+  </div>
+  <div class="player">
+    <div class="dice" id="player2Dice" onclick="rollDice('player2', 'player2Score')">⚀</div>
+    <div class="scorecard">Player 2<br>Score: <span id="player2Score">0</span></div>
+  </div>
+</div>
+
+<div id="winnerAnnouncement" style="display: none;"></div>
+
+<script>
+var maxScore = 20; // 
+var winnerAnnouncement = document.getElementById('winnerAnnouncement');
+
+function rollDice(player, scoreId) {
+  var dice = Math.floor(Math.random() * 6) + 1;
+  var scoreElement = document.getElementById(scoreId);
+  var currentScore = parseInt(scoreElement.textContent) + dice;
+  scoreElement.textContent = currentScore;
+  
+  // Update dice face
+  var diceFace = document.getElementById(player + 'Dice');
+  switch (dice) {
+    case 1:
+      diceFace.textContent = '⚀';
+      break;
+    case 2:
+      diceFace.textContent = '⚁';
+      break;
+    case 3:
+      diceFace.textContent = '⚂';
+      break;
+    case 4:
+      diceFace.textContent = '⚃';
+      break;
+    case 5:
+      diceFace.textContent = '⚄';
+      break;
+    case 6:
+      diceFace.textContent = '⚅';
+      break;
+  }
+  
+  
+  if (currentScore >= maxScore) {
+    var winnerPlayer = player === 'player1' ? 'Player 1' : 'Player 2';
+    winnerAnnouncement.textContent = winnerPlayer + ' wins!';
+    winnerAnnouncement.classList.add('winner');
+    winnerAnnouncement.style.display = 'block';
+
+    document.getElementById('player1Dice').style.pointerEvents = 'none';
+    document.getElementById('player2Dice').style.pointerEvents = 'none';
+  }
+}
+</script>
+
+</body>
+</html>
